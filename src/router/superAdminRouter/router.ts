@@ -11,11 +11,11 @@ superAdminRouter.get("/", (req: express.Request, res: express.Response) => {
     res.status(200).send("success");
 })
 
-superAdminRouter.post("/login", superAdminLogin);
+superAdminRouter.post("/api/superadmin/login", superAdminLogin);
 
 superAdminRouter.put("/reset-password", isAdminLoggedIN, resetPassword);
-superAdminRouter.patch("/logout", isAdminLoggedIN, superAdminLogout);
-superAdminRouter.get("/admin-profile", isAdminLoggedIN, getSuperAdminProfile);
+superAdminRouter.post("/api/superadmin/logout", isAdminLoggedIN, superAdminLogout);
+superAdminRouter.get("/api/superadmin/me", isAdminLoggedIN, getSuperAdminProfile);
 
 
 export default superAdminRouter;

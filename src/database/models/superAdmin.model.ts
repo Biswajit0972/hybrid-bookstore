@@ -14,12 +14,14 @@ const superAdminSchema = new Schema<SuperAdmin>({
 }, {timestamps: true});
 
 
-superAdminSchema.pre('save', async function () {
+superAdminSchema.pre('save', async function (next) {
     if (!this.isModified('adminPassword')) {
         return;
     }
+    const salt = await bcrypt.genSalt(10);
 
-    this.adminPassword = await bcrypt.hash(this.adminPassword, 10);
+    this.adminPassword = await bcrypt.hash(this.adminPassword, salt);
+    next();
 });
 
 superAdminSchema.methods.comparePassword = async function (password: string) {

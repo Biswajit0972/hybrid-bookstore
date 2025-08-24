@@ -1,7 +1,10 @@
 import express from 'express';
+import superAdminRouter from "./router/superAdminRouter/router";
 
 const app = express();
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.use(express.json());
+app.use(express.urlencoded({extended: true, limit: "16kb"}));
+app.use(superAdminRouter)
 
-export default app;
+export default app

@@ -37,7 +37,7 @@ export const userLogin = asyncHandler(async (req: Request, res: Response) => {
     }
 
     const refreshToken = await user.generateRefreshToken();
-    const accessToken = await user.generateRefreshToken();
+    const accessToken = await user.generateAccessToken();
 
     const userData = await UserModel.findById(user._id).select(["-password", "-v"]);
 
@@ -52,8 +52,7 @@ export const userLogin = asyncHandler(async (req: Request, res: Response) => {
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            expires: new Date(Date.now() + 900)
-
+            expires: new Date(Date.now() + 15 * 60 * 1000)
         }).json(new ApiResponse(200, "Login successful", {
             accessToken,
             refreshToken,

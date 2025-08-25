@@ -43,7 +43,7 @@ UserSchema.methods.comparePassword = async function (password: string): Promise<
 UserSchema.methods.generateAccessToken = function () {
     return jwt.sign(
         { id: this._id, role: this.role },
-        process.env.ACCESS_TOKEN_SECRET as string,
+      process.env.ACCESS_TOKEN_SECRET || "",
         { expiresIn: "15m" } // 15 minutes
     );
 };
@@ -52,7 +52,7 @@ UserSchema.methods.generateAccessToken = function () {
 UserSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         { id: this._id },
-        process.env.REFRESH_TOKEN_SECRET as string,
+        process.env.REFRESH_TOKEN_SECRET || "",
         { expiresIn: "7d" } // 7 days
     );
 };

@@ -37,7 +37,7 @@ UserSchema.pre("save", async function (next) {
 
 
 UserSchema.methods.comparePassword = async function (password: string): Promise<boolean> {
-    return bcrypt.compare(password, this.password);
+    return await bcrypt.compare(password, this.password);
 };
 
 UserSchema.methods.generateAccessToken = function () {

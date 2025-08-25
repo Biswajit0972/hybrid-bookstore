@@ -22,11 +22,13 @@ export const userLogin = asyncHandler(async (req: Request, res: Response) => {
             {username: identifier},
             {phone: identifier}
         ]
-    }).select(["-password", "-v"]);
+    });
 
     if (!user) {
         throw new ApiError("Invalid credentials.", 401);
     }
+
+
 
     const isValid = await user.comparePassword(password);
 
@@ -36,6 +38,8 @@ export const userLogin = asyncHandler(async (req: Request, res: Response) => {
 
     const refreshToken = await user.generateRefreshToken();
     const accessToken = await user.generateRefreshToken();
+
+    const userData = await UserModel.findById(user._id).select(["-password", "-v"]);
 
     return res.status(200)
         .cookie("refreshToken", refreshToken, {
@@ -48,9 +52,11 @@ export const userLogin = asyncHandler(async (req: Request, res: Response) => {
             httpOnly: true,
             secure: true,
             sameSite: 'none',
+            expires: new Date(Date.now() + 900)
+
         }).json(new ApiResponse(200, "Login successful", {
             accessToken,
             refreshToken,
-            user
+            user: userData,
         }))
 });

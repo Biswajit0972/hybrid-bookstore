@@ -6,6 +6,10 @@ export const Authorization = (role: string) => {
             res.status(403).json({flag: false, message: "user is not authorized"});
         }
 
+        if (req.headers.role === "owner") {
+            req.headers.ownerId = req.headers.AuthUserId;
+        }
+
         next();
     }
 }

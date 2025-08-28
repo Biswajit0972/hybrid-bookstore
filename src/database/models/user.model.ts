@@ -11,8 +11,8 @@ const UserSchema = new Schema<Iuser>(
         address: {type: String, required: true},
         blockStatus: {
             type: String,
-            enum: ["blocked", "unblocked", "warning", "null", "banned"],
-            default: "null",
+            enum: ["blocked", "unblocked", "warning",  "banned"],
+            default: null,
         },
         role: {
             type: String,
